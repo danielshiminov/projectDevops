@@ -20,4 +20,4 @@ This project fetches weather data from an external API, processes the data, and 
 1. **Clone the Repository**:
    Clone the repository to your local machine using the following command:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/danielshiminov/projectDevops
