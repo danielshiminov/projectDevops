@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'API_URL', defaultValue: 'http://api.openweathermap.org/data/2.5/weather', description: 'URL of the weather API')
+        string(name: 'API_KEY', defaultValue: '', description: 'API key for the weather API')
+        string(name: 'CITY', defaultValue: 'London', description: 'City to fetch weather data for')
+    }
+    environment {
+        PYTHON = '/usr/bin/python3' // Adjust the Python path according to your Jenkins setup
+    }
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                sh "${env.PYTHON} -m pip install --upgrade pip"
+                sh "${env.PYTHON} -m pip install -r requirements.txt"
+            }
+        }
+        stage('Run Python Script') {
+            steps {
+                sh "${env.PYTHON} weather_data.py ${params.API_URL} ${params.API_KEY} ${params.CITY}"
+            }
+        }
+        stage('Archive HTML') {
+            steps {
+                archiveArtifacts artifacts: 'output.html', fingerprint: true
+            }
+        }
+    }
+}
